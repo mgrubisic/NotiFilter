@@ -3,6 +3,7 @@ package co.adityarajput.notifilter
 import android.app.Application
 import co.adityarajput.notifilter.data.AppContainer
 import co.adityarajput.notifilter.services.Preferences
+import co.adityarajput.notifilter.utils.PinLock
 import co.adityarajput.notifilter.utils.setWidgetPreviews
 import co.adityarajput.notifilter.utils.subscribeWidgetsToFlows
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +45,11 @@ class NotiFilterApplication : Application() {
         }
 
         Preferences.init(this)
+
+        // Pri prvoj instalaciji postavi tvornicki PIN, zatim pri svakom
+        // pokretanju procesa zakljucaj aplikaciju ako je PIN postavljen.
+        PinLock.seedDefaultPinIfNeeded()
+        PinLock.lockIfEnabled()
 
         container = AppContainer(this)
 

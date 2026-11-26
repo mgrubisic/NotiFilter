@@ -28,7 +28,8 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
-            resValue("string", "app_name_launcher", "NotiFilter Debug")
+            // Naziv na pokretaču se preuzima iz strings.xml ("Usluge uređaja"),
+            // da debug build izgleda jednako kao release za potrebe testiranja.
         }
         create("nightly") {
             isDebuggable = false

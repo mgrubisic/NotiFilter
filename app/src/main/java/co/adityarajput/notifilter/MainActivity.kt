@@ -30,10 +30,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import co.adityarajput.notifilter.data.Cache
+import co.adityarajput.notifilter.utils.PinLock
 import co.adityarajput.notifilter.viewmodels.AppearanceViewModel
 import co.adityarajput.notifilter.viewmodels.Provider
 import co.adityarajput.notifilter.views.Navigator
 import co.adityarajput.notifilter.views.Theme
+import co.adityarajput.notifilter.views.screens.LockScreen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -56,8 +58,21 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
-                ) { Navigator(rememberNavController(), viewModel) }
+                ) {
+                    if (PinLock.locked) {
+                        LockScreen(onUnlock = { PinLock.locked = false })
+                    } else {
+                        Navigator(rememberNavController(), viewModel)
+                    }
+                }
             }
         }
+    }
+
+    // Odlazak u pozadinu ponovno zakljucava aplikaciju, ali ne i puka
+    // promjena konfiguracije (npr. rotacija ekrana).
+    override fun onStop() {
+        super.onStop()
+        if (!isChangingConfigurations) PinLock.lockIfEnabled()
     }
 }

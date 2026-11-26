@@ -32,6 +32,22 @@ object Preferences {
         get() = state.getLong(WIDGET_PREVIEW_SET_AT, 0)
         set(value) = state.edit { putLong(WIDGET_PREVIEW_SET_AT, value) }
 
+    // Salted SHA-256 hash PIN-a i njegova sol. Ako je hash null, zakljucavanje je iskljuceno.
+    private const val PIN_HASH = "pin_hash"
+    var pinHash: String?
+        get() = settings.getString(PIN_HASH, null)
+        set(value) = settings.edit { putString(PIN_HASH, value) }
+
+    private const val PIN_SALT = "pin_salt"
+    var pinSalt: String?
+        get() = settings.getString(PIN_SALT, null)
+        set(value) = settings.edit { putString(PIN_SALT, value) }
+
+    private const val DEFAULT_PIN_SEEDED = "default_pin_seeded"
+    var defaultPinSeeded
+        get() = state.getBoolean(DEFAULT_PIN_SEEDED, false)
+        set(value) = state.edit { putBoolean(DEFAULT_PIN_SEEDED, value) }
+
     private const val DEFAULT_FILTERS_SEEDED = "default_filters_seeded"
     var defaultFiltersSeeded
         get() = state.getBoolean(DEFAULT_FILTERS_SEEDED, false)

@@ -29,11 +29,13 @@ import co.adityarajput.notifilter.services.NotificationListener
 import co.adityarajput.notifilter.services.Preferences
 import co.adityarajput.notifilter.utils.Logger
 import co.adityarajput.notifilter.utils.Permission
+import co.adityarajput.notifilter.utils.PinLock
 import co.adityarajput.notifilter.utils.isGranted
 import co.adityarajput.notifilter.utils.request
 import co.adityarajput.notifilter.viewmodels.AppearanceViewModel
 import co.adityarajput.notifilter.views.Brightness
 import co.adityarajput.notifilter.views.components.AppBar
+import co.adityarajput.notifilter.views.components.PinDialog
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.ZoneId
@@ -153,6 +155,55 @@ fun SettingsScreen(
                         )
                     }
                 }
+                var pinEnabled by remember { mutableStateOf(PinLock.isEnabled) }
+                var showPinDialog by remember { mutableStateOf(false) }
+                var removingPin by remember { mutableStateOf(false) }
+
+                if (showPinDialog) {
+                    PinDialog(
+                        removing = removingPin,
+                        onDismiss = { showPinDialog = false },
+                        onResult = { success ->
+                            showPinDialog = false
+                            if (success) pinEnabled = PinLock.isEnabled
+                        },
+                    )
+                }
+
+                Card(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(dimensionResource(R.dimen.padding_small)),
+                ) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                dimensionResource(R.dimen.padding_large),
+                                dimensionResource(R.dimen.padding_medium),
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                stringResource(R.string.app_lock),
+                                style = MaterialTheme.typography.titleSmall,
+                            )
+                            Text(
+                                stringResource(R.string.explain_app_lock),
+                                style = MaterialTheme.typography.bodySmall,
+                            )
+                        }
+                        Switch(
+                            pinEnabled,
+                            { checked ->
+                                removingPin = !checked
+                                showPinDialog = true
+                            },
+                        )
+                    }
+                }
+
                 Card(
                     Modifier
                         .fillMaxWidth()

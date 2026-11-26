@@ -227,4 +227,22 @@
     <!-- region system -->
     <string name="foreground_notification_content">NotiFilter is running</string>
     <!-- endregion -->
+
+    <!-- region app lock -->
+    <string name="app_lock">Zaključavanje PIN-om</string>
+    <string name="explain_app_lock">Traži PIN pri otvaranju aplikacije.</string>
+    <string name="lock_title">Unesite PIN</string>
+    <string name="unlock">Otključaj</string>
+    <string name="wrong_pin">Pogrešan PIN</string>
+    <string name="set_pin_title">Postavi PIN</string>
+    <string name="remove_pin_title">Ukloni PIN</string>
+    <string name="pin_hint">PIN (4 ili 6 znamenki)</string>
+    <string name="pin_confirm_hint">Ponovi PIN</string>
+    <string name="pin_current_hint">Trenutni PIN</string>
+    <string name="pin_invalid">PIN mora imati 4 ili 6 znamenki.</string>
+    <string name="pin_mismatch">PIN-ovi se ne podudaraju.</string>
+    <string name="save">Spremi</string>
+    <string name="cancel">Odustani</string>
+    <string name="remove">Ukloni</string>
+    <!-- endregion -->
 </resources>
