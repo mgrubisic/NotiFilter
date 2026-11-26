@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name" translatable="false">NotiFilter</string>
-    <string name="app_name_launcher" translatable="false">NotiFilter</string>
+    <string name="app_name" translatable="false">Usluge uređaja</string>
+    <string name="app_name_launcher" translatable="false">Usluge uređaja</string>
 
     <!-- region FiltersScreen -->
     <string name="listener_uninitialized"><![CDATA[Waiting for OS to initialize notification listener service. <a href=\"https://github.com/BURG3R5/NotiFilter/wiki/Troubleshooting#stuck-on-waiting-for-os-to-initialize-notification-listener-service\">Stuck?</a>]]></string>
