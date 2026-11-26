@@ -1,0 +1,33 @@
+name: build debug
+
+# Ručni build debug APK-a za testiranje (bez potrebe za potpisnim ključem).
+# Pokreni iz kartice "Actions" -> "build debug" -> "Run workflow".
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: "debug"
+  cancel-in-progress: true
+
+jobs:
+  build-debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup JDK
+        uses: actions/setup-java@v6
+        with:
+          java-version: 17
+          distribution: "temurin"
+          cache: "gradle"
+
+      - name: Build debug APK
+        run: ./gradlew app:assembleDebug
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: NotiFilter_debug
+          path: app/build/outputs/apk/debug/app-debug.apk
