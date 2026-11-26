@@ -241,8 +241,6 @@
     <string name="pin_current_hint">Trenutni PIN</string>
     <string name="pin_invalid">PIN mora imati 4 ili 6 znamenki.</string>
     <string name="pin_mismatch">PIN-ovi se ne podudaraju.</string>
-    <string name="save">Spremi</string>
-    <string name="cancel">Odustani</string>
     <string name="remove">Ukloni</string>
     <!-- endregion -->
 </resources>
