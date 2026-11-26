@@ -2,9 +2,13 @@ package co.adityarajput.notifilter.data
 
 import android.content.Context
 import co.adityarajput.notifilter.data.models.*
+import co.adityarajput.notifilter.services.Preferences
+import co.adityarajput.notifilter.utils.Logger
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
+
+private const val DEFAULT_FILTERS_ASSET = "default_filters.json"
 
 class AppContainer(private val context: Context) {
     val repository: Repository by lazy {
@@ -19,6 +23,30 @@ class AppContainer(private val context: Context) {
 
     suspend fun import(json: String) =
         repository.deleteAndCreateFilters(*Json.decodeFromString<Array<Filter>>(json))
+
+    /**
+     * Učitava predefinirane filtere iz app/src/main/assets/default_filters.json
+     * (isti format kao Export/Import u aplikaciji). Izvršava se samo jednom –
+     * pri prvom pokretanju, ako je baza filtera prazna.
+     */
+    fun seedDefaultFilters() {
+        if (Preferences.defaultFiltersSeeded) return
+
+        runBlocking {
+            if (repository.filters().first().isEmpty()) {
+                try {
+                    val json = context.assets.open(DEFAULT_FILTERS_ASSET)
+                        .bufferedReader().use { it.readText() }
+                    repository.upsert(*Json.decodeFromString<Array<Filter>>(json))
+                    Logger.d("AppContainer", "Seeded default filters from $DEFAULT_FILTERS_ASSET")
+                } catch (e: Exception) {
+                    Logger.e("AppContainer", "Failed to seed default filters", e)
+                    return@runBlocking
+                }
+            }
+            Preferences.defaultFiltersSeeded = true
+        }
+    }
 
     fun seedDemoData() {
         runBlocking {

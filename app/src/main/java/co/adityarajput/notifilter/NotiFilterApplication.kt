@@ -47,6 +47,10 @@ class NotiFilterApplication : Application() {
 
         container = AppContainer(this)
 
+        // Predefinirani filteri iz assets/default_filters.json (samo pri prvom pokretanju).
+        // Mora biti prije seedDemoData(), jer demo podaci popunjavaju samo praznu bazu.
+        container.seedDefaultFilters()
+
         if (BuildConfig.DEBUG) {
             // INFO: While debugging, populate database with demo data for screenshots
             container.seedDemoData()
